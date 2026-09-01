@@ -1,15 +1,20 @@
-Проанализируй документ.
+---
+description: "Analyses any document and returns a summary, key points, red flags and recommendations. Triggers: 'проанализируй документ', 'разбери этот файл', '/analyze-document'."
+language: en
+---
 
-## Что делать
-1. Прочитай файл, который я укажу (или файл из `Inbox/`)
-2. Дай структурированный анализ
+Analyze the document.
 
-## Формат анализа
-- **Краткое содержание** (3-5 предложений)
+## What to do
+1. Read the file I point you at (or a file from `Inbox/`)
+2. Give a structured analysis
+
+## Analysis format
+- **Краткое содержание** (3-5 sentences)
 - **Ключевые пункты** (bullet-list)
-- **На что обратить внимание** (риски, неточности, важные детали)
-- **Рекомендации** (что с этим делать)
+- **На что обратить внимание** (risks, inaccuracies, important details)
+- **Рекомендации** (what to do about it)
 
-## Куда сохранить
-- Результат — в файл рядом с оригиналом или в `Projects/`
-- Название: `анализ-[название-документа].md`
+## Where to save
+- Result — into a file next to the original or in `Projects/`
+- Name: `анализ-[название-документа].md`

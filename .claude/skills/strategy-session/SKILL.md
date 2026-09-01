@@ -1,74 +1,76 @@
 ---
-description: "Модель задаёт вам вопросы по контексту компании и помогает увидеть узкие места и наметить план. Триггеры: 'проведи стратсессию', 'задай мне вопросы про компанию', '/strategy-session'."
-language: ru
+description: "The model asks you questions about your company context and helps you see the bottlenecks and outline a plan. Triggered by 'проведи стратсессию', 'задай мне вопросы про компанию', '/strategy-session'."
+language: en
 ---
 
 # Skill: /strategy-session
 
-> Разговор наоборот: не вы спрашиваете модель, а она вас.
+> A conversation in reverse: you don't ask the model, it asks you.
 
-Работает только когда `Context/Company/` уже заполнен. Смысл в том, что модель видит вашу компанию целиком — все восемь разделов сразу — а вы каждый день видите свой участок. Вопросы возникают на стыках.
-
----
-
-## Что нужно на входе
-
-Заполненный `Context/Company/`. Хотя бы четыре раздела из восьми.
-
-Спроси, на чём фокусируемся: направление, конкретная проблема, или свободный разбор. Если ответа нет — бери свободный.
+Works only when `Context/Company/` is already filled in. The point is that the model sees your company as a whole — all eight sections at once — while you see your own patch of it every day. The questions come up at the seams.
 
 ---
 
-## Что делает
+## What you need as input
 
-### Шаг 1. Прочитай весь контекст компании
+A filled-in `Context/Company/`. At least four sections out of eight.
 
-Все файлы, целиком. Дальше работаешь только по ним — ничего не выдумывая и ничего не додумывая за пределами написанного.
+Fewer than four — say so and offer `/enrich-company` first. Do not start the session: questions asked against an empty context come out generic, and that is exactly what makes the format useless.
 
-### Шаг 2. Найди, где не сходится
-
-Ищи три вещи, именно в этом порядке:
-
-**Противоречия между разделами.** Производство говорит одно, отгрузка другое. Это самое ценное: люди из разных отделов такого не видят, потому что каждый читает свой файл.
-
-**Дыры.** Процесс описан от и до, а один шаг пропущен. Обычно там и болит.
-
-**Несоразмерности.** Много внимания к мелкому и одна строка про крупное.
-
-### Шаг 3. Задавай вопросы. По одному
-
-**Не выдавай список.** Один вопрос — ответ — следующий вопрос, который учитывает ответ. Список из пятнадцати вопросов человек пролистает и не ответит ни на один.
-
-Вопрос должен быть таким, чтобы на него было что ответить сходу. Не «как вы видите стратегию развития», а «у вас в закупках написано, что заявка формируется под план производства, а в производстве — что план верстается по факту заказов. Что из этого первично?».
-
-Держи в голове: **вопрос стоит задавать, только если от ответа что-то меняется.** Остальное — светская беседа.
-
-Пяти-семи вопросов достаточно. Дальше внимание кончается.
-
-### Шаг 4. Собери результат
-
-После разговора — файл. Не пересказ беседы, а три вещи:
-
-- **Узкие места** — что мешает, по убыванию цены вопроса. Каждое со ссылкой на то, откуда это видно.
-- **Что чинится быстро** — то, что можно сделать за неделю силами одного человека.
-- **Что требует решения** — развилки, где нужен выбор, а не работа.
+Ask what we're focusing on: a direction, a specific problem, or a free-form review. If there's no answer — take free-form.
 
 ---
 
-## Правила
+## What it does
 
-**Не советуй, пока не спросил.** Соблазн выдать план после первого файла велик, и план будет неверным: контекст описывает, как есть, а не почему так сложилось. Причины — только из ответов.
+### Step 1. Read the entire company context
 
-**Не притворяйся, что знаешь отрасль лучше собеседника.** Ты видишь связи между файлами, он видит производство. Это разные знания, и твоё — слабее.
+All the files, in full. From there on you work only from them — inventing nothing and assuming nothing beyond what is written.
 
-**Разделяй «странно» и «неправильно».** Многое, что выглядит нелогично снаружи, имеет причину внутри. Спроси причину, прежде чем называть проблемой.
+### Step 2. Find where things don't add up
 
-**Не превращай разговор в допрос.** Если человек на вопрос отвечает «не знаю» — это тоже ответ, и часто самый интересный. Запиши и иди дальше.
+Look for three things, in exactly this order:
+
+**Contradictions between sections.** Production says one thing, shipping another. This is the most valuable one: people from different departments don't see it, because each of them reads their own file.
+
+**Holes.** A process is described end to end, but one step is missing. That's usually where it hurts.
+
+**Disproportions.** A lot of attention to something small and one line about something big.
+
+### Step 3. Ask questions. One at a time
+
+**Don't hand over a list.** One question — an answer — the next question, which takes that answer into account. A list of fifteen questions is something a person scrolls past and answers none of.
+
+The question has to be one they can answer on the spot. Not «как вы видите стратегию развития», but «у вас в закупках написано, что заявка формируется под план производства, а в производстве — что план верстается по факту заказов. Что из этого первично?».
+
+Keep in mind: **a question is worth asking only if something changes depending on the answer.** Everything else is small talk.
+
+Five to seven questions are enough. After that attention runs out.
+
+### Step 4. Assemble the result
+
+After the conversation — a file. Not a retelling of the conversation, but three things:
+
+- **Узкие места** — what's in the way, in descending order of what it costs. Each one with a reference to where it can be seen from.
+- **Что чинится быстро** — what can be done in a week by one person.
+- **Что требует решения** — the forks where a choice is needed, not work.
 
 ---
 
-## Что на выходе
+## Rules
 
-Файл в `Projects/` вида `разбор-<направление>-<дата>.md` с тремя разделами выше.
+**Don't advise before you've asked.** The temptation to hand over a plan after the first file is strong, and the plan will be wrong: the context describes how things are, not why they came to be that way. The reasons come only from the answers.
 
-Плюс в чат — одна строка: что оказалось самым узким местом.
+**Don't pretend you know the industry better than the person you're talking to.** You see the connections between files, he sees production. That's different knowledge, and yours is the weaker one.
+
+**Separate "strange" from "wrong".** Much of what looks illogical from the outside has a reason on the inside. Ask for the reason before calling it a problem.
+
+**Don't turn the conversation into an interrogation.** If a person answers «не знаю» to a question — that's also an answer, and often the most interesting one. Write it down and move on.
+
+---
+
+## What comes out
+
+A file in `Projects/` named `разбор-<направление>-<дата>.md` with the three sections above.
+
+Plus one line in chat: what turned out to be the biggest bottleneck.

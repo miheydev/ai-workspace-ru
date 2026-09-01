@@ -1,31 +1,33 @@
 ---
-description: Быстрая проверка бизнес-идеи за 2 минуты — 3 эксперта, 1 раунд, без файла
+description: "Quick check of a business idea in 2 minutes — 3 experts, 1 round. Triggers: 'проверь идею', 'быстро оцени идею', '/idea-quickcheck'."
+language: en
 ---
 
 # Idea Quickcheck
 
-Быстрая прогонка бизнес-идеи через 3 экспертов за один раунд. Для случаев, когда нужна быстрая проверка, а не глубокий анализ.
+A quick run of a business idea through 3 experts in a single round. For cases where you need a fast check, not deep analysis.
 
 ---
 
-## ПРОЦЕСС
+## PROCESS
 
-### Шаг 1: Подготовка
+### Step 1: Preparation
 
-1. Прочитай идею из $ARGUMENTS
-2. Сформулируй бриф в 2-3 предложениях
+1. Read the idea from $ARGUMENTS
+2. Read `Context/Company/about.md`; if the idea touches purchasing, production or shipping — also the matching section of `Context/Company/`
+3. Write a brief in 2-3 sentences, and add 3-5 lines of company context to it — the experts judge the idea for this company, not in general
 
-### Шаг 2: Один раунд — 3 агента параллельно
+### Step 2: One round — 3 agents in parallel
 
-Запусти **3 Task-агента параллельно** (subagent_type: "general-purpose", model: "sonnet"):
+Launch **3 Task agents in parallel** (subagent_type: "general-purpose", model: "sonnet"):
 
-**Агент 1 — Karpathy (Продукт/AI):**
+**Agent 1 — Karpathy (Product/AI):**
 ```
 You are Andrej Karpathy — former AI Director at Tesla, OpenAI co-founder, one of the world's top AI/ML experts.
 
 Evaluate this business idea QUICKLY and IN CHARACTER.
 
-IDEA: [бриф]
+IDEA: [brief]
 
 Give your gut reaction in 150-200 words:
 1. Is there a real technical moat here, or is this just an API wrapper?
@@ -36,13 +38,13 @@ Give your gut reaction in 150-200 words:
 Be direct. No fluff.
 ```
 
-**Агент 2 — DHH (Простота/Прибыльность):**
+**Agent 2 — DHH (Simplicity/Profitability):**
 ```
 You are DHH — creator of Ruby on Rails, co-founder of Basecamp/37signals, author of "Rework".
 
 Evaluate this business idea QUICKLY and IN CHARACTER.
 
-IDEA: [бриф]
+IDEA: [brief]
 
 Give your gut reaction in 150-200 words:
 1. Is this a real problem people ALREADY pay money to solve?
@@ -53,13 +55,13 @@ Give your gut reaction in 150-200 words:
 Be toxically simple. Cut the BS.
 ```
 
-**Агент 3 — Thiel (Контрарная позиция):**
+**Agent 3 — Thiel (Contrarian position):**
 ```
 You are Peter Thiel — PayPal and Palantir co-founder, first Facebook investor, author of "Zero to One".
 
 Evaluate this business idea QUICKLY and IN CHARACTER.
 
-IDEA: [бриф]
+IDEA: [brief]
 
 Give your gut reaction in 150-200 words:
 1. Is this 0-to-1 (something new) or 1-to-n (another clone)?
@@ -70,9 +72,9 @@ Give your gut reaction in 150-200 words:
 Be contrarian. Challenge everything.
 ```
 
-### Шаг 3: Быстрый синтез
+### Step 3: Quick synthesis
 
-Выдай результат **прямо в чат** (без сохранения в файл):
+Output the result **directly in chat** (without saving to a file):
 
 ```
 ## Quickcheck: [Название идеи]
@@ -97,15 +99,15 @@ Be contrarian. Challenge everything.
 
 ---
 
-## ВАЖНЫЕ ПРАВИЛА
+## IMPORTANT RULES
 
-1. **Быстро.** Весь процесс — один раунд, без дополнительных итераций.
-2. **Используй Sonnet** (model: "sonnet") для агентов — быстрее и дешевле для quickcheck.
-3. **Не сохраняй в файл.** Это быстрая проверка, результат — в чат.
-4. **Язык агентов — английский.** Синтез — на русском.
+1. **Fast.** The whole process is one round, no extra iterations.
+2. **Use Sonnet** (model: "sonnet") for the agents — faster and cheaper for a quickcheck.
+3. **Do not save to a file.** This is a quick check, the result goes to chat.
+4. **Agent language is English.** The synthesis is in Russian.
 
 ---
 
-Идея для проверки:
+Idea to check:
 
 $ARGUMENTS

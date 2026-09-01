@@ -1,18 +1,23 @@
-Напиши деловое письмо.
+---
+description: "Writes a business letter in the company voice. Triggers: 'напиши письмо', 'составь деловое письмо', '/write-email'."
+language: en
+---
 
-## Контекст
-Используй:
-- `Context/Company/about.md` — кто мы
-- `Context/tone-of-voice.md` — как мы пишем
+Write a business email.
 
-## Что нужно
-Спроси у меня:
+## Context
+Use:
+- `Context/Company/about.md` — who we are
+- `Context/tone-of-voice.md` — how we write
+
+## What is needed
+Ask me:
 1. Кому письмо? (имя, компания, роль)
 2. О чём? (цель письма)
 3. Какой тон? (формальный / дружелюбный / follow-up после встречи)
 
-## Формат
-- Сохрани в `Projects/` с названием типа `письмо-Иванову-2026-03-25.md`
-- Структура: приветствие → суть → конкретное предложение / вопрос → CTA → подпись
-- Коротко: 5-10 предложений максимум
-- Подпись: используй мои данные из Company/about.md
+## Format
+- Save to `Projects/` with a name like `письмо-Иванову-2026-03-25.md`
+- Structure: greeting → the point → a specific offer / question → CTA → signature
+- Short: 5-10 sentences maximum
+- Signature: use my details from Company/about.md

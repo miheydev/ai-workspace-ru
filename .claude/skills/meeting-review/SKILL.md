@@ -1,59 +1,59 @@
 ---
-description: "Транскрипт или запись планёрки → саммари, решения, задачи. Триггеры: 'разбери встречу', 'сделай саммари планёрки', '/meeting-review'."
-language: ru
+description: "Meeting transcript or recording → summary, decisions, tasks. Triggers: 'разбери встречу', 'сделай саммари планёрки', '/meeting-review'."
+language: en
 ---
 
 # Skill: /meeting-review
 
-> Превращает расшифровку встречи в три вещи, которые можно использовать: о чём договорились, что решили, кто что делает.
+> Turns a meeting transcript into three things you can use: what was discussed, what was decided, who does what.
 
-Отличие от простого саммари: решения и задачи вынимаются отдельно и адресно. Саммари читают один раз, задачи — работают.
-
----
-
-## Что нужно на входе
-
-Файл с расшифровкой в `Inbox/`. Формат любой: txt, md, docx, вывод любой транскрибации.
-
-Если файла нет — спроси, где он.
+The difference from a plain summary: decisions and tasks are pulled out separately and by name. A summary is read once; tasks keep working.
 
 ---
 
-## Что делает
+## What you need as input
 
-### Шаг 1. Прочитай целиком
+A transcript file in `Inbox/`. Any format: txt, md, docx, the output of any transcription.
 
-Не по кускам. Решение часто отменяется через сорок минут после того, как было принято, и краткий пересказ первой половины будет враньём.
-
-### Шаг 2. Раздели на три слоя
-
-**Обсуждение** — о чём говорили, какие были позиции. Коротко.
-
-**Решения** — что постановили. Каждое решение: что решили, кто решил, что из этого следует. Если решения не было, а было обсуждение — не превращай одно в другое.
-
-**Задачи** — кто, что, к какому сроку. Без исполнителя это не задача, а пожелание: так и помечай.
-
-### Шаг 3. Отдельно вынеси нерешённое
-
-Вопросы, которые подняли и не закрыли. Это самая полезная часть файла через неделю.
+If there is no file — ask where it is.
 
 ---
 
-## Правила
+## What it does
 
-**Пиши только то, что было сказано.** Не достраивай логику за участников, не приписывай выводов, которых никто не делал.
+### Step 1. Read it in full
 
-**Цитируй, когда формулировка важна.** Особенно в решениях: «делаем к пятнице» и «постараемся к пятнице» — разные вещи.
+Not in pieces. A decision often gets reversed forty minutes after it was made, and a short retelling of the first half will be a lie.
 
-**Не сглаживай разногласия.** Если двое спорили и не договорились — так и напиши. Гладкое саммари спора бесполезно.
+### Step 2. Split it into three layers
 
-**Имена — как в расшифровке.** Не угадывай должности и не додумывай, кто есть кто.
+**Discussion** — what was talked about, what the positions were. Briefly.
+
+**Decisions** — what was settled. For each decision: what was decided, who decided it, what follows from it. If there was no decision, only a discussion — do not turn one into the other.
+
+**Tasks** — who, what, by when. Without an assignee it is not a task but a wish: mark it as such.
+
+### Step 3. Pull out separately what was left unresolved
+
+Questions that were raised and not closed. A week later this is the most useful part of the file.
 
 ---
 
-## Что на выходе
+## Rules
 
-Один файл в `Projects/` вида `встреча-ГГГГ-ММ-ДД-тема.md`:
+**Write only what was said.** Do not fill in the logic for the participants, do not attribute conclusions nobody drew.
+
+**Quote when the wording matters.** Especially in decisions: «делаем к пятнице» and «постараемся к пятнице» are different things.
+
+**Do not smooth over disagreements.** If two people argued and did not agree — write it that way. A smooth summary of an argument is useless.
+
+**Names as they are in the transcript.** Do not guess job titles and do not make up who is who.
+
+---
+
+## What comes out
+
+One file in `Projects/` of the form `встреча-ГГГГ-ММ-ДД-тема.md`:
 
 ```
 # Встреча <дата> — <тема>
@@ -65,4 +65,4 @@ language: ru
 ## Осталось нерешённым
 ```
 
-Плюс в чат — три строки: сколько решений, сколько задач, что осталось открытым.
+Plus three lines in chat: how many decisions, how many tasks, what is left open.

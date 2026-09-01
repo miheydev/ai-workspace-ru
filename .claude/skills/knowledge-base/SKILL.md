@@ -1,65 +1,65 @@
 ---
-description: "Превращает разрозненные документы в связанную базу знаний в Knowledge/. Триггеры: 'изучи документ', 'добавь в базу знаний', '/knowledge-base'."
-language: ru
+description: "Turns scattered documents into a linked knowledge base in Knowledge/. Triggered by 'изучи документ', 'добавь в базу знаний', '/knowledge-base'."
+language: en
 ---
 
 # Skill: /knowledge-base
 
-> Документы, регламенты и статьи, разложенные так, что модель находит нужное сама.
+> Documents, regulations and articles laid out so that the model finds what it needs on its own.
 
-Подход опирается на [LLM Wiki Карпаты](https://gist.github.com/karpathy/442a6bf555914893e9891c11519de94f): база растёт постепенно, каждая заметка — про одну вещь, заметки ссылаются друг на друга.
+The approach follows [Karpathy's LLM Wiki](https://gist.github.com/karpathy/442a6bf555914893e9891c11519de94f): the base grows gradually, each note is about one thing, notes link to each other.
 
 ---
 
-## Куда что кладём
+## Where things go
 
-Подпапки создаются по мере надобности — заранее их в репозитории нет.
+Subfolders are created as needed — they are not in the repository up front.
 
-| Что это | Куда | Пример |
+| What it is | Where | Example |
 |---|---|---|
-| Как у нас устроен процесс | `Knowledge/Процессы/` | приёмка сырья, согласование дегустации |
-| Правила и регламенты | `Knowledge/Регламенты/` | требования к упаковке |
-| Знания извне | `Knowledge/Справочники/` | как считается срок годности |
-| Сведения о нас | `Context/Company/` | не сюда — там свои файлы |
+| How a process works here | `Knowledge/Процессы/` | приёмка сырья, согласование дегустации |
+| Rules and regulations | `Knowledge/Регламенты/` | требования к упаковке |
+| Knowledge from outside | `Knowledge/Справочники/` | как считается срок годности |
+| Information about us | `Context/Company/` | not here — that folder has its own files |
 
 ---
 
-## Что делает
+## What it does
 
-### Шаг 1. Прочитай документ целиком
+### Step 1. Read the document in full
 
-Не по диагонали. Задача — понять, что здесь знание, а что оформление.
+Not skimming. The job is to understand what here is knowledge and what is formatting.
 
-### Шаг 2. Разбей на заметки
+### Step 2. Split into notes
 
-**Одна заметка — одна вещь.** Регламент на сорок страниц превращается не в один файл, а в восемь: по одному на каждый описанный процесс. Иначе модель будет каждый раз читать сорок страниц ради одного абзаца.
+**One note — one thing.** A forty-page regulation turns not into one file but into eight: one per process it describes. Otherwise the model will read forty pages every time for the sake of one paragraph.
 
-Имя файла — то, что внутри: `приёмка-сырья.md`, а не `регламент-2024-итог.md`.
+The file name is what is inside it: `приёмка-сырья.md`, not `регламент-2024-итог.md`.
 
-### Шаг 3. Свяжи
+### Step 3. Link them
 
-В конце каждой заметки — раздел `## Связано` со ссылками на соседние. Связи важнее содержания: по ним модель добирается до того, о чём вы не спросили напрямую.
+At the end of every note — a `## Связано` section with links to the neighbouring ones. The links matter more than the content: through them the model reaches what you did not ask about directly.
 
-### Шаг 4. Обнови оглавление
+### Step 4. Update the table of contents
 
-`Knowledge/README.md` — одна строка на заметку: название и о чём она. Это то, что модель читает первым.
-
----
-
-## Правила
-
-**Не копируй документ целиком.** Заметка — это то, что вы поняли, а не то, что было написано. Копия исходника не добавляет ничего, кроме объёма.
-
-**Сохраняй источник.** В шапке заметки — откуда взято и когда. Через полгода это единственный способ понять, устарело ли.
-
-**Не смешивай «как есть» и «как надо».** Действующий процесс и желаемый — разные заметки. Иначе модель будет советовать по несуществующему регламенту.
-
-**Противоречия не сглаживай.** Нашли два документа, которые говорят разное — так и запишите, обоими ссылками. Это находка, а не проблема.
+`Knowledge/README.md` — one line per note: its name and what it is about. This is what the model reads first.
 
 ---
 
-## Что на выходе
+## Rules
 
-- Новые заметки в нужной папке `Knowledge/`.
-- Обновлённое оглавление.
-- В чат — что добавилось, и отдельно: какие противоречия нашлись.
+**Do not copy the document wholesale.** A note is what you understood, not what was written. A copy of the source adds nothing but volume.
+
+**Keep the source.** In the note's header — where it came from and when. Six months later this is the only way to tell whether it is out of date.
+
+**Do not mix "as is" and "as it should be".** The current process and the desired one are different notes. Otherwise the model will give advice based on a regulation that does not exist.
+
+**Do not smooth over contradictions.** Found two documents that say different things — write it down that way, with links to both. That is a find, not a problem.
+
+---
+
+## Output
+
+- New notes in the right `Knowledge/` folder.
+- An updated table of contents.
+- In chat — what was added, and separately: which contradictions were found.

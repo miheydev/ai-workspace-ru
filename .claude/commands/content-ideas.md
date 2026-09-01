@@ -1,31 +1,31 @@
 ---
-description: Генерация 10 идей для контента по теме — тренды, боли ЦА, неочевидные углы
+description: Generate 10 content ideas on a topic — trends, audience pain points, non-obvious angles
 ---
 
 # Content Ideas
 
-Генерация идей для контента по заданной теме. Три параллельных агента ищут идеи с разных сторон, затем синтез в ранжированный список.
+Generating content ideas on a given topic. Three parallel agents look for ideas from different sides, then everything is synthesized into a ranked list.
 
 ---
 
-## ПРОЦЕСС
+## PROCESS
 
-### Шаг 1: Определи контекст
+### Step 1: Determine the context
 
-Прочитай $ARGUMENTS. Определи:
-- **Тема / область** — о чём генерируем идеи
-- **Канал** (если указан): Telegram, блог, LinkedIn, VK — влияет на формат и глубину
-- **ЦА** (если указана) — для кого контент
+Read $ARGUMENTS. Determine:
+- **Topic / area** — what we are generating ideas about
+- **Channel** (if given): Telegram, blog, LinkedIn, VK — affects format and depth
+- **Audience** (if given) — who the content is for
 
-Прочитай `Context/Company/about.md` и `Context/tone-of-voice.md` для понимания контекста.
+Read `Context/Company/about.md` and `Context/tone-of-voice.md` to understand the context.
 
-Если канал не указан — генерируй универсальные идеи, пригодные для адаптации.
+If no channel is given — generate universal ideas that can be adapted.
 
-### Шаг 2: Три агента параллельно
+### Step 2: Three agents in parallel
 
-Запусти **3 Task-агента параллельно** (subagent_type: "general-purpose", model: "sonnet"):
+Launch **3 Task agents in parallel** (subagent_type: "general-purpose", model: "sonnet"):
 
-**Агент 1 — Trending (что горячего):**
+**Agent 1 — Trending (what's hot):**
 ```
 You are a trend analyst specializing in AI, tech, and business content.
 
@@ -44,7 +44,7 @@ For each idea provide:
 Return in Russian. Be specific, not generic.
 ```
 
-**Агент 2 — Audience Pain (что болит у ЦА):**
+**Agent 2 — Audience Pain (what hurts the audience):**
 ```
 You are an audience research specialist.
 
@@ -66,7 +66,7 @@ For each idea provide:
 Return in Russian. Focus on practical, actionable content.
 ```
 
-**Агент 3 — Contrarian (неочевидные углы):**
+**Agent 3 — Contrarian (non-obvious angles):**
 ```
 You are a contrarian content strategist. Your job is to find angles that nobody else is covering.
 
@@ -90,20 +90,20 @@ For each idea provide:
 Return in Russian. Be bold, not safe.
 ```
 
-### Шаг 3: Синтез и ранжирование
+### Step 3: Synthesis and ranking
 
-Собери все идеи (9-12 штук) и:
+Collect all the ideas (9-12 of them) and:
 
-1. **Объедини** похожие / дублирующиеся
-2. **Ранжируй по потенциалу** — оцени каждую по 3 критериям (1-5):
-   - **Актуальность** — насколько это "горячо" прямо сейчас
-   - **Уникальность** — насколько отличается от того, что уже написано
-   - **Вовлечение** — насколько вероятна реакция аудитории (лайк, коммент, репост)
-3. **Выбери ТОП-10** и отсортируй по суммарному баллу
+1. **Merge** similar / duplicate ones
+2. **Rank by potential** — score each one on 3 criteria (1-5):
+   - **Актуальность** — how "hot" it is right now
+   - **Уникальность** — how much it differs from what has already been written
+   - **Вовлечение** — how likely an audience reaction is (like, comment, repost)
+3. **Pick the TOP 10** and sort by total score
 
-### Шаг 4: Покажи результат
+### Step 4: Show the result
 
-Выведи в чат:
+Output to chat:
 
 ```
 ## Идеи для контента: [тема]
@@ -129,15 +129,15 @@ Return in Russian. Be bold, not safe.
 
 ---
 
-## ВАЖНЫЕ ПРАВИЛА
+## IMPORTANT RULES
 
-1. **Используй Sonnet** (model: "sonnet") для агентов — быстрее для генерации идей.
-2. **WebSearch обязателен** для агентов Trending и Audience Pain — нужны реальные данные, не выдумки.
-3. **Не давай generic идеи.** "10 способов использовать AI" — плохо. "Почему 73% внедрений AI-ботов в продажах проваливаются (и 3 паттерна тех, кто выжил)" — хорошо.
-4. **Результат в чат** (не в файл), если пользователь не просит сохранить.
+1. **Use Sonnet** (model: "sonnet") for the agents — faster for generating ideas.
+2. **WebSearch is mandatory** for the Trending and Audience Pain agents — real data is needed, not made-up stuff.
+3. **Do not give generic ideas.** "10 способов использовать AI" — bad. "Почему 73% внедрений AI-ботов в продажах проваливаются (и 3 паттерна тех, кто выжил)" — good.
+4. **Result goes to chat, and to a file** — `Projects/идеи-[тема]-[дата].md`. A list of ten ideas is worth more than one session (CLAUDE.md, rule 2).
 
 ---
 
-Тема для генерации идей:
+Topic to generate ideas for:
 
 $ARGUMENTS

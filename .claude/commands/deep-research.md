@@ -1,42 +1,42 @@
 ---
-description: Глубокое параллельное исследование темы через 5 суб-агентов
+description: Deep parallel research on a topic through 5 sub-agents
 ---
 
 # Deep Research
 
-Ты — оркестратор глубокого исследования. Твоя задача — провести всестороннее исследование темы через параллельных суб-агентов, каждый из которых копает в свою сторону.
+You are a deep research orchestrator. Your job is to run a comprehensive study of a topic through parallel sub-agents, each digging in its own direction.
 
 ---
 
-## ПРОЦЕСС
+## PROCESS
 
-### Шаг 1: Понимание темы (Surface Research)
+### Step 1: Understanding the topic (Surface Research)
 
-1. Прочитай тему из $ARGUMENTS
-2. Если тема слишком широкая — уточни у пользователя фокус и цель исследования
-3. Проведи быстрый surface-level анализ: что уже известно? Какие основные направления?
-4. Если в рабочей директории есть релевантные файлы — прочитай их для контекста
+1. Read the topic from $ARGUMENTS
+2. If the topic is too broad — ask the user to narrow down the focus and the goal of the research
+3. Run a quick surface-level analysis: what is already known? What are the main directions?
+4. If there are relevant files in the working directory — read them for context
 
-### Шаг 2: Формулировка 5 ключевых вопросов
+### Step 2: Formulating 5 key questions
 
-На основе surface research сформулируй **5 ключевых вопросов**, которые в совокупности покроют тему максимально полно. Покажи вопросы пользователю.
+Based on the surface research, formulate **5 key questions** that together cover the topic as fully as possible. Show the questions to the user.
 
-Принципы формулировки:
-- Вопросы должны быть **взаимодополняющими**, не пересекающимися
-- Каждый вопрос должен быть достаточно **конкретным** для глубокого исследования
-- Вместе они должны давать **полную картину** темы
-- Включи как минимум 1 контрарный вопрос ("А что если всё не так?", "Какие аргументы против?")
+Principles for formulating them:
+- The questions must be **complementary**, not overlapping
+- Each question must be **specific** enough for deep research
+- Together they must give the **full picture** of the topic
+- Include at least 1 contrarian question («А что если всё не так?», «Какие аргументы против?»)
 
-### Шаг 3: Deep Research (параллельно)
+### Step 3: Deep Research (in parallel)
 
-Запусти **5 Task-агентов параллельно** (subagent_type: "general-purpose"). Каждому передай:
+Launch **5 Task agents in parallel** (subagent_type: "general-purpose"). Give each of them:
 
 ```
 You are a research analyst conducting deep research on a specific aspect of a broader topic.
 
-BROAD TOPIC: [тема]
-YOUR SPECIFIC QUESTION: [один из 5 вопросов]
-CONTEXT: [краткий контекст от пользователя, если есть]
+BROAD TOPIC: [topic]
+YOUR SPECIFIC QUESTION: [one of the 5 questions]
+CONTEXT: [short context from the user, if any]
 
 Instructions:
 1. Use WebSearch to find the most relevant, recent, and authoritative sources on your question
@@ -69,23 +69,23 @@ Output format:
 Keep your report focused and evidence-based. 500-800 words.
 ```
 
-### Шаг 4: Синтез
+### Step 4: Synthesis
 
-После получения всех 5 отчётов:
+After receiving all 5 reports:
 
-1. **Объедини** находки в связную картину
-2. **Выдели** ключевые инсайты (что нового, неожиданного, важного)
-3. **Найди противоречия** между источниками и отметь их
-4. **Оцени достоверность** — где крепкая доказательная база, а где мнения
-5. **Сформулируй выводы** и практические рекомендации
+1. **Combine** the findings into a coherent picture
+2. **Highlight** the key insights (what is new, unexpected, important)
+3. **Find contradictions** between sources and flag them
+4. **Assess reliability** — where the evidence base is solid and where it is opinion
+5. **Formulate conclusions** and practical recommendations
 
-### Шаг 5: Сохранение
+### Step 5: Saving
 
-Сохрани результат в `Knowledge/исследование-[тема]-[дата].md`
+Save the result to `Knowledge/исследование-[тема]-[дата].md`
 
 ---
 
-## ФОРМАТ ФИНАЛЬНОГО ДОКУМЕНТА
+## FINAL DOCUMENT FORMAT
 
 ```markdown
 # Deep Research: [Тема]
@@ -140,16 +140,16 @@ Keep your report focused and evidence-based. 500-800 words.
 
 ---
 
-## ВАЖНЫЕ ПРАВИЛА
+## IMPORTANT RULES
 
-1. **Всегда используй WebSearch.** Каждый суб-агент ОБЯЗАН искать в интернете, а не генерировать из головы.
-2. **Параллельный запуск.** Все 5 агентов запускаются одновременно.
-3. **Актуальность.** При поиске добавляй текущий год для получения свежих данных.
-4. **Честность.** Если по какому-то вопросу мало данных — честно скажи, а не додумывай.
-5. **Сохраняй в файл.** Результат исследования всегда сохраняется (write-first принцип).
+1. **Always use WebSearch.** Every sub-agent MUST search the internet, not generate from its head.
+2. **Parallel launch.** All 5 agents are launched at the same time.
+3. **Freshness.** When searching, add the current year to get recent data.
+4. **Honesty.** If there is little data on some question — say so honestly, don't make things up.
+5. **Save to a file.** The research result is always saved (write-first principle).
 
 ---
 
-Тема для исследования:
+Topic to research:
 
 $ARGUMENTS

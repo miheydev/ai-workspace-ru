@@ -1,65 +1,65 @@
 ---
-description: "Собирает .docx по шаблону из Templates/ — акты, спецификации, отчёты. Триггеры: 'сделай документ', 'подготовь акт', 'собери отчёт в docx', '/create-document'."
-language: ru
+description: "Builds a .docx from a template in Templates/ — акты, спецификации, отчёты. Triggers: 'сделай документ', 'подготовь акт', 'собери отчёт в docx', '/create-document'."
+language: en
 ---
 
 # Skill: /create-document
 
-> Готовый .docx по вашему шаблону, с подставленными данными.
+> A ready .docx from your template, with the data filled in.
 
-Смысл в шаблоне: описали структуру один раз — дальше документ собирается за секунды, и все документы выглядят одинаково.
-
----
-
-## Что нужно на входе
-
-1. **Какой документ** — акт, спецификация, отчёт, письмо.
-2. **Шаблон** — файл из `Templates/`. Если подходящего нет, предложи создать и покажи структуру до того, как собирать.
-3. **Данные** — откуда брать: файл во `Inbox/`, таблица, или пользователь продиктует.
+The point is the template: describe the structure once — after that a document is built in seconds, and every document looks the same.
 
 ---
 
-## Что делает
+## What you need as input
 
-### Шаг 1. Прочитай шаблон
-
-Найди в нём плейсхолдеры — места вида `[название]`, `{{дата}}`, `___`. Собери их список.
-
-### Шаг 2. Спроси только недостающее
-
-Что можешь взять из `Context/Company/` — бери оттуда, не спрашивай. Реквизиты, адреса, название — уже там.
-Спрашивай одним списком, а не по одному вопросу за раз.
-
-### Шаг 3. Собери файл
-
-Через `python-docx`. Правила вёрстки:
-
-- Один шрифт на весь документ, размер 11.
-- Заголовки — стилями `Heading 1` / `Heading 2`, не жирным текстом вручную.
-- Таблицы — стилем `Table Grid`, шапка жирным.
-- Числа в таблицах выравнивай по правому краю.
-- Никаких пустых абзацев для отступов — используй интервалы.
-
-Если `python-docx` не установлен — скажи об этом и предложи установить: `pip install python-docx`. Не подменяй молча результат markdown-файлом.
-
-### Шаг 4. Проверь перед сдачей
-
-Открой собранный файл и убедись: не осталось ни одного незаполненного плейсхолдера, числа совпадают с источником, даты в одном формате.
+1. **Which document** — акт, specification, report, letter.
+2. **Template** — a file from `Templates/`. If there is no suitable one, offer to create it and show the structure before building anything.
+3. **Data** — where to take it from: a file in `Inbox/`, a table, or the user dictates it.
 
 ---
 
-## Правила
+## What it does
 
-**Не выдумывай реквизиты.** Нет данных — оставь плейсхолдер и скажи, чего не хватает. Документ с придуманным ИНН опаснее, чем незаполненный.
+### Step 1. Read the template
 
-**Считай в источнике, а не в голове.** Если в документе есть суммы — бери их из таблицы или считай явно, показав расчёт.
+Find the placeholders in it — spots like `[название]`, `{{дата}}`, `___`. Collect the list of them.
 
-**Не меняй формулировки шаблона.** Шаблон согласован. Твоя работа — подставить данные, а не улучшить текст.
+### Step 2. Ask only for what is missing
+
+Whatever you can take from `Context/Company/` — take it from there, don't ask. Реквизиты, addresses, the name are already there.
+Ask in one list, not one question at a time.
+
+### Step 3. Build the file
+
+Via `python-docx`. Layout rules:
+
+- One font for the whole document, size 11.
+- Headings — with the `Heading 1` / `Heading 2` styles, not manually bolded text.
+- Tables — with the `Table Grid` style, header row in bold.
+- Align numbers in tables to the right.
+- No empty paragraphs for spacing — use spacing settings.
+
+If `python-docx` is not installed — say so and offer to install it: `pip install python-docx`. Don't silently substitute a markdown file for the result.
+
+### Step 4. Check before handing it over
+
+Open the built file and make sure: not a single placeholder is left unfilled, the numbers match the source, the dates are in one format.
 
 ---
 
-## Что на выходе
+## Rules
 
-Файл в `Projects/`, названный так, чтобы через месяц было понятно: `акт-<контрагент>-<дата>.docx`.
+**Don't invent реквизиты.** No data — leave the placeholder and say what is missing. A document with a made-up ИНН is more dangerous than an unfilled one.
 
-В чат — путь к файлу и список того, что осталось незаполненным.
+**Calculate in the source, not in your head.** If the document has amounts — take them from the table or calculate them explicitly, showing the calculation.
+
+**Don't change the template's wording.** The template has been agreed on. Your job is to substitute data, not to improve the text.
+
+---
+
+## What you get
+
+A file in `Projects/`, named so that it is still clear a month later: `акт-<контрагент>-<дата>.docx`.
+
+In chat — the path to the file and a list of what is left unfilled.

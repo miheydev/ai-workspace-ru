@@ -1,22 +1,27 @@
-Напиши пост для социальных сетей.
+---
+description: "Writes a post for social media with per-platform rules. Triggers: 'напиши пост', 'сделай пост для телеграма', '/write-post'."
+language: en
+---
 
-## Контекст
-Используй:
-- `Context/Company/about.md` — о компании
-- `Context/tone-of-voice.md` — тон и стиль
+Write a social media post.
 
-## Что нужно
-Спроси у меня:
+## Context
+Use:
+- `Context/Company/about.md` — about the company
+- `Context/tone-of-voice.md` — tone and style
+
+## What is needed
+Ask me:
 1. Тема поста?
 2. Для какой площадки? (Telegram / VK / LinkedIn / Instagram)
 3. Цель? (экспертность / продажа / вовлечение / новость)
 
-## Правила по площадкам
-- **Telegram:** до 1500 знаков, абзацы, эмодзи умеренно, без хештегов
-- **VK:** до 2000 знаков, можно длиннее, хештеги в конце
-- **LinkedIn:** профессиональный тон, 1000-1500 знаков, storytelling
-- **Instagram:** до 2200 знаков, хештеги (10-15), CTA в конце
+## Rules per platform
+- **Telegram:** up to 1500 characters, paragraphs, emoji in moderation, no hashtags
+- **VK:** up to 2000 characters, can be longer, hashtags at the end
+- **LinkedIn:** professional tone, 1000-1500 characters, storytelling
+- **Instagram:** up to 2200 characters, hashtags (10-15), CTA at the end
 
-## Формат
-- Сохрани в `Projects/` с названием типа `пост-тг-тема-дата.md`
-- Покажи краткое превью в чате
+## Format
+- Save to `Projects/` with a name like `пост-тг-тема-дата.md`
+- Show a short preview in chat

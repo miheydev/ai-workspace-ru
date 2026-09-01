@@ -1,70 +1,70 @@
 ---
-description: Универсальный анализ по методу "Светофор" — красное/жёлтое/зелёное для любого объекта
+description: Universal analysis with the "Светофор" method — red/yellow/green for any object
 ---
 
-# Светофор — Универсальный анализ
+# Светофор — Universal Analysis
 
-Ты — эксперт-аналитик. Твоя задача — провести структурированный анализ по методу "Светофор" для предоставленного материала.
+You are an expert analyst. Your task is to run a structured analysis with the "Светофор" method on the material provided.
 
-Метод "Светофор" разделяет все находки на три категории:
-- **🔴 Красное** — критичные проблемы, которые ОБЯЗАТЕЛЬНО нужно исправить. Риски, ошибки, слабые места, которые могут привести к провалу.
-- **🟡 Жёлтое** — зоны внимания, которые ЖЕЛАТЕЛЬНО улучшить. Не критично, но улучшение даст заметный эффект.
-- **🟢 Зелёное** — сильные стороны, которые стоит СОХРАНИТЬ и усилить. То, что работает хорошо.
-
----
-
-## Шаг 0. ОПРЕДЕЛИ КОНТЕКСТ
-
-Прежде чем анализировать, определи:
-
-1. **Что анализируем?** (тип объекта: встреча, документ, процесс, предложение, код, стратегия, etc.)
-2. **Какая цель у этого объекта?** (что он должен был достичь)
-3. **Кто целевая аудитория / стейкхолдеры?**
-4. **По каким критериям оценивать?** (выбери 5-8 релевантных критериев из списка ниже или предложи свои)
-
-### Библиотека критериев (выбери подходящие):
-
-**Для встреч и переговоров:**
-- Структура и тайминг
-- Активное слушание (соотношение говорения)
-- Качество вопросов
-- Выявление потребностей
-- Презентация ценности
-- Работа с возражениями
-- Фиксация договорённостей и next steps
-- Раппорт и эмоциональный контакт
-
-**Для документов и предложений (КП, договоры, презентации):**
-- Ясность и структура
-- Убедительность аргументации
-- Полнота информации
-- Фокус на выгодах клиента (не на фичах)
-- Визуальное оформление
-- Call to action / следующие шаги
-- Юридическая корректность
-- Конкурентное позиционирование
-
-**Для процессов и стратегий:**
-- Чёткость целей и метрик
-- Реалистичность сроков
-- Распределение ответственности
-- Учёт рисков
-- Масштабируемость
-- Эффективность ресурсов
-- Обратная связь и итерации
-
-**Для кода и технических решений:**
-- Архитектура и структура
-- Читаемость и поддерживаемость
-- Безопасность
-- Производительность
-- Покрытие тестами
-- Обработка ошибок
-- Документация
+The "Светофор" method splits all findings into three categories:
+- **🔴 Red** — critical problems that MUST be fixed. Risks, errors, weak spots that can lead to failure.
+- **🟡 Yellow** — attention zones that SHOULD be improved. Not critical, but improving them gives a noticeable effect.
+- **🟢 Green** — strengths worth KEEPING and reinforcing. What works well.
 
 ---
 
-## Шаг 1. СВОДКА
+## Step 0. DETERMINE THE CONTEXT
+
+Before analyzing, determine:
+
+1. **What are we analyzing?** (object type: meeting, document, process, proposal, code, strategy, etc.)
+2. **What is this object's goal?** (what it was supposed to achieve)
+3. **Who is the target audience / stakeholders?**
+4. **Which criteria to evaluate by?** (pick 5-8 relevant criteria from the list below or propose your own)
+
+### Criteria library (pick the fitting ones):
+
+**For meetings and negotiations:**
+- Structure and timing
+- Active listening (talk-time ratio)
+- Question quality
+- Uncovering needs
+- Value presentation
+- Handling objections
+- Capturing agreements and next steps
+- Rapport and emotional contact
+
+**For documents and proposals (КП, contracts, presentations):**
+- Clarity and structure
+- Persuasiveness of the argument
+- Completeness of information
+- Focus on client benefits (not on features)
+- Visual design
+- Call to action / next steps
+- Legal correctness
+- Competitive positioning
+
+**For processes and strategies:**
+- Clarity of goals and metrics
+- Realistic deadlines
+- Distribution of responsibility
+- Risks accounted for
+- Scalability
+- Resource efficiency
+- Feedback and iterations
+
+**For code and technical solutions:**
+- Architecture and structure
+- Readability and maintainability
+- Security
+- Performance
+- Test coverage
+- Error handling
+- Documentation
+
+---
+
+## Step 1. SUMMARY
 
 ```
 Объект анализа: [Что именно анализируем]
@@ -75,9 +75,9 @@ description: Универсальный анализ по методу "Свет
 
 ---
 
-## Шаг 2. КРАСНОЕ — Исправить обязательно
+## Step 2. RED — Must fix
 
-Критичные проблемы, которые нужно устранить. Каждый пункт — конкретный, с доказательством и рекомендацией.
+Critical problems that have to be eliminated. Every item is specific, with evidence and a recommendation.
 
 ### 🔴 [Проблема 1]
 - **Что не так:** [Конкретное описание]
@@ -90,9 +90,9 @@ description: Универсальный анализ по методу "Свет
 
 ---
 
-## Шаг 3. ЖЁЛТОЕ — Желательно улучшить
+## Step 3. YELLOW — Should improve
 
-Зоны, которые не ломают результат, но заметно его улучшат.
+Zones that do not break the result, but will noticeably improve it.
 
 ### 🟡 [Зона внимания 1]
 - **Что можно улучшить:** [Описание]
@@ -105,9 +105,9 @@ description: Универсальный анализ по методу "Свет
 
 ---
 
-## Шаг 4. ЗЕЛЁНОЕ — Сохранить и усилить
+## Step 4. GREEN — Keep and reinforce
 
-Сильные стороны, которые работают. Важно их осознать и закрепить.
+Strengths that work. It matters to recognize and lock them in.
 
 ### 🟢 [Сильная сторона 1]
 - **Что хорошо:** [Описание]
@@ -120,7 +120,7 @@ description: Универсальный анализ по методу "Свет
 
 ---
 
-## Шаг 5. СЧЁТЧИК СВЕТОФОРА
+## Step 5. TRAFFIC LIGHT COUNTER
 
 | Категория | Кол-во | Основные темы |
 |-----------|--------|---------------|
@@ -130,9 +130,9 @@ description: Универсальный анализ по методу "Свет
 
 ---
 
-## Шаг 6. ТОП-3 ДЕЙСТВИЯ
+## Step 6. TOP-3 ACTIONS
 
-Три самых важных действия по приоритету (начиная с красного):
+The three most important actions by priority (starting with red):
 
 1. **[Действие 1]** — 🔴 [Почему и что конкретно сделать]
 2. **[Действие 2]** — 🔴/🟡 [Почему и что конкретно сделать]
@@ -140,15 +140,21 @@ description: Универсальный анализ по методу "Свет
 
 ---
 
-## Правила анализа
+## Analysis rules
 
-1. **Конкретность** — каждый пункт подкреплён фактом, цитатой или примером из материала. Никаких общих фраз.
-2. **Баланс** — обязательно найди и красное, и зелёное. Даже в плохом материале есть что-то хорошее, и наоборот.
-3. **Действенность** — каждая рекомендация должна быть конкретной и выполнимой. Не "улучшить коммуникацию", а "задавать минимум 3 открытых вопроса перед презентацией решения".
-4. **Приоритизация** — красное всегда важнее жёлтого. ТОП-3 действий начинается с самого критичного.
-5. **Честность** — не смягчай красное. Если что-то плохо — скажи прямо, конструктивно но без сахара.
+1. **Specificity** — every item is backed by a fact, a quote or an example from the material. No generic phrases.
+2. **Balance** — you must find both red and green. Even bad material has something good in it, and the other way around.
+3. **Actionability** — every recommendation must be specific and doable. Not "улучшить коммуникацию", but "задавать минимум 3 открытых вопроса перед презентацией решения".
+4. **Prioritization** — red is always more important than yellow. The TOP-3 actions start with the most critical one.
+5. **Honesty** — do not soften the red. If something is bad — say it straight, constructively but without sugar.
 
 ---
 
-Материал для анализа:
+## Where to save
+
+`Knowledge/светофор-[объект]-[дата].md` — plus a short verdict in the chat.
+
+---
+
+Material to analyze:
 $ARGUMENTS
