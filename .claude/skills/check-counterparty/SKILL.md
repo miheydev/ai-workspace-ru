@@ -13,7 +13,7 @@ The check answers one question: **can we work with this company, and on what ter
 
 ## INPUT
 
-Extract from $ARGUMENTS:
+Take from the user's request:
 - **Company name** (required)
 - **ИНН** — if known. Raises accuracy a lot: everything is found by it
 - **Website** — if there is one
@@ -448,6 +448,4 @@ Post a **short summary** in chat (no more than 12-15 lines):
 
 ---
 
-Company to check:
-
-$ARGUMENTS
+If the request did not name the company or its ИНН — ask before starting.

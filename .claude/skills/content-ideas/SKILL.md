@@ -1,5 +1,6 @@
 ---
-description: Generate 10 content ideas on a topic — trends, audience pain points, non-obvious angles
+description: "Generates 10 content ideas on a topic — trends, audience pain points, non-obvious angles. Triggers: 'придумай идеи для постов', 'идеи для контента', '/content-ideas'."
+language: en
 ---
 
 # Content Ideas
@@ -12,7 +13,7 @@ Generating content ideas on a given topic. Three parallel agents look for ideas 
 
 ### Step 1: Determine the context
 
-Read $ARGUMENTS. Determine:
+From the user's request determine:
 - **Topic / area** — what we are generating ideas about
 - **Channel** (if given): Telegram, blog, LinkedIn, VK — affects format and depth
 - **Audience** (if given) — who the content is for
@@ -138,6 +139,4 @@ Output to chat:
 
 ---
 
-Topic to generate ideas for:
-
-$ARGUMENTS
+If the request did not name the topic — ask before starting.

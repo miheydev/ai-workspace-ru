@@ -45,7 +45,6 @@ Knowledge/          — documents about the business (services, procedures, case
 Templates/          — document templates with placeholders
 Inbox/              — files to process (drop a file → ask to sort it out)
 .claude/
-  commands/         — commands, invoked with a slash
   skills/           — skills: a folder with SKILL.md inside
 ```
 
@@ -169,13 +168,13 @@ When the repository becomes ours — private on GitHub, on our own server, or in
 2. Inside it, a file `SKILL.md`: what to do, where to take context from, what the result looks like
 3. Restart Claude Code — `/my-task` appears in the list
 
-**The folder is required.** A plain file `.claude/skills/my-task.md` does not become a command — Claude Code looks for `SKILL.md` inside a folder. Files in `.claude/commands/*.md` do become commands directly.
+**The folder is required.** A plain file `.claude/skills/my-task.md` does not become a skill — Claude Code looks for `SKILL.md` inside a folder.
 
 ## What to use
 
-Just say the task in your own words — Claude will pick the right one. The list is not exhaustive; the rest is in [.claude/commands/](.claude/commands/) and [.claude/skills/](.claude/skills/), and the files are readable.
+Just say the task in your own words — Claude will pick the right one. The list is not exhaustive; the rest is in [.claude/skills/](.claude/skills/), and the files are readable.
 
-| What you need | Command |
+| What you need | Skill |
 |---|---|
 | Fill in the company context | `/enrich-company` |
 | Process a meeting | `/meeting-review` |
@@ -192,5 +191,5 @@ Just say the task in your own words — Claude will pick the right one. The list
 - **Talk to the user in Russian.** These instructions are in English to save context; the conversation is not.
 - Documents, letters, proposals — Russian, unless asked otherwise
 - Technical terms in English are fine
-- Instruction files (this file, skills, commands) — English
+- Instruction files (this file and the skills) — English
 - Company context, templates, README — Russian, because people read and fill them

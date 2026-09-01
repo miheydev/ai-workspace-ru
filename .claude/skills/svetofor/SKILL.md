@@ -1,5 +1,6 @@
 ---
-description: Universal analysis with the "Светофор" method — red/yellow/green for any object
+description: "Universal analysis with the «Светофор» method — red, yellow and green for any object. Triggers: 'разбери по светофору', 'анализ светофор', '/svetofor'."
+language: en
 ---
 
 # Светофор — Universal Analysis
@@ -156,5 +157,4 @@ The three most important actions by priority (starting with red):
 
 ---
 
-Material to analyze:
-$ARGUMENTS
+If the request did not say what to analyse — ask before starting.

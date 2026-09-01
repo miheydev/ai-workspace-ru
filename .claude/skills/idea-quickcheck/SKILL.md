@@ -13,7 +13,7 @@ A quick run of a business idea through 3 experts in a single round. For cases wh
 
 ### Step 1: Preparation
 
-1. Read the idea from $ARGUMENTS
+1. Take the idea from the user's request
 2. Read `Context/Company/about.md`; if the idea touches purchasing, production or shipping — also the matching section of `Context/Company/`
 3. Write a brief in 2-3 sentences, and add 3-5 lines of company context to it — the experts judge the idea for this company, not in general
 
@@ -108,6 +108,4 @@ Output the result **directly in chat** (without saving to a file):
 
 ---
 
-Idea to check:
-
-$ARGUMENTS
+If the request did not state the idea — ask before starting.

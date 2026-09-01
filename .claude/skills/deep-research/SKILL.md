@@ -1,5 +1,6 @@
 ---
-description: Deep parallel research on a topic through 5 sub-agents
+description: "Deep research on a topic through 5 parallel sub-agents. Triggers: 'проведи исследование', 'изучи тему глубоко', '/deep-research'."
+language: en
 ---
 
 # Deep Research
@@ -12,7 +13,7 @@ You are a deep research orchestrator. Your job is to run a comprehensive study o
 
 ### Step 1: Understanding the topic (Surface Research)
 
-1. Read the topic from $ARGUMENTS
+1. Take the topic from the user's request
 2. If the topic is too broad — ask the user to narrow down the focus and the goal of the research
 3. Run a quick surface-level analysis: what is already known? What are the main directions?
 4. If there are relevant files in the working directory — read them for context
@@ -150,6 +151,4 @@ Save the result to `Knowledge/исследование-[тема]-[дата].md`
 
 ---
 
-Topic to research:
-
-$ARGUMENTS
+If the request did not name the topic — ask before starting.
