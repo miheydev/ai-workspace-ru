@@ -68,7 +68,7 @@ Projects/            результаты работы
 Knowledge/           процессы, регламенты, справочники
 Templates/           КП, бриф, отчёт по встрече
 Inbox/               файлы на обработку
-.claude/commands/    11 команд
+.claude/commands/    13 команд
 .claude/skills/      7 скиллов
 ```
 
