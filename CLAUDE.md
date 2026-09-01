@@ -182,8 +182,7 @@ Just say the task in your own words — Claude will pick the right one. The list
 | Build a document from a template | `/create-document` |
 | File a document into the knowledge base | `/knowledge-base` |
 | Find weak spots by being asked questions | `/strategy-session` |
-| Turn a repeatable piece of work into a skill | `/create-skill` |
-| Create, improve and test a skill the long way | `skill-creator` — Anthropic's official skill |
+| Turn a repeatable piece of work into a skill | `skill-creator` — Anthropic's official skill |
 | Set the workspace up for yourself | `/setup` |
 
 ---
