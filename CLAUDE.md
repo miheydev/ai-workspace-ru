@@ -7,6 +7,24 @@ language: en
 > Main instruction file. Claude Code reads it first on every start, before answering anything.
 > Workspace still empty? Say: «помоги настроить рабочее пространство под нас».
 
+## About the company
+
+<!-- Filled in by /setup from your answers: name, what the company does, clients, products, team size, and the role of the person talking to Claude. -->
+
+не заполнено
+
+## Our goals with AI
+
+<!-- Filled in by /setup: the 2-3 tasks the team wants to close with AI. -->
+
+не заполнено
+
+## Language and style
+
+<!-- Filled in by /setup: «ты» or «вы», formal or informal. -->
+
+не заполнено
+
 ## Quick Start
 
 **Who we are and how we work** → [Context/Company/](Context/Company/) — eight sections, one per area
