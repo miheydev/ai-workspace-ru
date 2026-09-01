@@ -1,6 +1,6 @@
 ---
+name: content-ideas
 description: "Generates 10 content ideas on a topic — trends, audience pain points, non-obvious angles. Triggers: 'придумай идеи для постов', 'идеи для контента', '/content-ideas'."
-language: en
 ---
 
 # Content Ideas

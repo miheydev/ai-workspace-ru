@@ -1,6 +1,6 @@
 ---
+name: write-kp
 description: "Builds a commercial proposal from the template and the company context. Triggers: 'подготовь КП', 'составь коммерческое предложение', '/write-kp'."
-language: en
 ---
 
 Write a commercial proposal.

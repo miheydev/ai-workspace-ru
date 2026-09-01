@@ -1,6 +1,6 @@
 ---
+name: knowledge-base
 description: "Turns scattered documents into a linked knowledge base in Knowledge/. Triggered by 'изучи документ', 'добавь в базу знаний', '/knowledge-base'."
-language: en
 ---
 
 # Skill: /knowledge-base

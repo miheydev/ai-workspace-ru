@@ -1,6 +1,6 @@
 ---
+name: meeting-review
 description: "Meeting transcript → summary, decisions, tasks, open questions, follow-up draft. Triggers: 'разбери встречу', 'сделай саммари планёрки', 'саммари встречи', '/meeting-review'."
-language: en
 ---
 
 # Skill: /meeting-review

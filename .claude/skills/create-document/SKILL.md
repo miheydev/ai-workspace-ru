@@ -1,6 +1,6 @@
 ---
+name: create-document
 description: "Builds a .docx from a template in Templates/ — акты, спецификации, отчёты. Triggers: 'сделай документ', 'подготовь акт', 'собери отчёт в docx', '/create-document'."
-language: en
 ---
 
 # Skill: /create-document

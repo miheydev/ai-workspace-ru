@@ -1,6 +1,6 @@
 ---
+name: write-email
 description: "Writes a business letter in the company voice. Triggers: 'напиши письмо', 'составь деловое письмо', '/write-email'."
-language: en
 ---
 
 Write a business email.

@@ -1,6 +1,6 @@
 ---
+name: deep-research
 description: "Deep research on a topic through 5 parallel sub-agents. Triggers: 'проведи исследование', 'изучи тему глубоко', '/deep-research'."
-language: en
 ---
 
 # Deep Research

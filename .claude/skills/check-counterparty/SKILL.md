@@ -1,6 +1,6 @@
 ---
+name: check-counterparty
 description: "Counterparty due diligence from open sources: legal status, finances, courts and debts, real activity, industry compliance — with a traffic-light verdict and payment-terms recommendation. Triggers: 'проверь контрагента', 'проверь компанию перед отгрузкой', 'что за фирма', '/check-counterparty'."
-language: en
 ---
 
 # Counterparty Check

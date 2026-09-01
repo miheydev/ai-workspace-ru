@@ -1,6 +1,6 @@
 ---
+name: write-post
 description: "Writes a post for social media with per-platform rules. Triggers: 'напиши пост', 'сделай пост для телеграма', '/write-post'."
-language: en
 ---
 
 Write a social media post.

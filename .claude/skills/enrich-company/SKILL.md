@@ -1,6 +1,6 @@
 ---
+name: enrich-company
 description: "Collects information about your company from open sources and lays it out across the sections of Context/Company/. Triggers: 'обогати контекст', 'собери про нашу компанию', '/enrich-company'."
-language: en
 ---
 
 # Skill: /enrich-company

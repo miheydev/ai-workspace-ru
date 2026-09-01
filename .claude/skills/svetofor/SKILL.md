@@ -1,6 +1,6 @@
 ---
+name: svetofor
 description: "Universal analysis with the «Светофор» method — red, yellow and green for any object. Triggers: 'разбери по светофору', 'анализ светофор', '/svetofor'."
-language: en
 ---
 
 # Светофор — Universal Analysis

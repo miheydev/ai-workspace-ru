@@ -1,6 +1,6 @@
 ---
+name: strategy-session
 description: "The model asks you questions about your company context and helps you see the bottlenecks and outline a plan. Triggered by 'проведи стратсессию', 'задай мне вопросы про компанию', '/strategy-session'."
-language: en
 ---
 
 # Skill: /strategy-session

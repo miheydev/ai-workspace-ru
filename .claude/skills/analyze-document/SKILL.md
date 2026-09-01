@@ -1,6 +1,6 @@
 ---
+name: analyze-document
 description: "Analyses any document and returns a summary, key points, red flags and recommendations. Triggers: 'проанализируй документ', 'разбери этот файл', '/analyze-document'."
-language: en
 ---
 
 Analyze the document.

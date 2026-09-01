@@ -1,6 +1,6 @@
 ---
+name: market-analysis
 description: "Analysis of the market and competitors for the company niche: size, trends, players, pricing, positioning. Triggers: 'проанализируй рынок', 'посмотри конкурентов', '/market-analysis'."
-language: en
 ---
 
 Run a market analysis for my business.

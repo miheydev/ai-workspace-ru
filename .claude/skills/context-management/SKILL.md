@@ -1,6 +1,6 @@
 ---
+name: context-management
 description: "How not to bloat context in a long session and what to do when you hit the limit. Load during long work or on 'слишком длинный запрос'."
-language: en
 ---
 
 # Skill: /context-management

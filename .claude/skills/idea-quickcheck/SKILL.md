@@ -1,6 +1,6 @@
 ---
+name: idea-quickcheck
 description: "Quick check of a business idea in 2 minutes — 3 experts, 1 round. Triggers: 'проверь идею', 'быстро оцени идею', '/idea-quickcheck'."
-language: en
 ---
 
 # Idea Quickcheck
