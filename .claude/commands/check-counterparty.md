@@ -1,10 +1,13 @@
 ---
-description: Research a prospective client — company profile, problem hypotheses, solution proposals (5 parallel agents)
+description: "Counterparty due diligence from open sources: legal status, finances, courts and debts, real activity, industry compliance — with a traffic-light verdict and payment-terms recommendation. Triggers: 'проверь контрагента', 'проверь компанию перед отгрузкой', 'что за фирма', '/check-counterparty'."
+language: en
 ---
 
-# Prospect Research
+# Counterparty Check
 
-You are the orchestrator of prospective-client research. Your task is to assemble a full company profile from open data, surface problem hypotheses and form solution proposals with a sellability score.
+You orchestrate a due-diligence check of a counterparty — a buyer, a supplier, or a partner — from open sources. The result is a verdict and a recommendation on terms of work.
+
+The check answers one question: **can we work with this company, and on what terms.**
 
 ---
 
@@ -12,67 +15,75 @@ You are the orchestrator of prospective-client research. Your task is to assembl
 
 Extract from $ARGUMENTS:
 - **Company name** (required)
-- **Website URL** (required)
-- **Context** (optional): who introduced us, what we already know, who the contact is
+- **ИНН** — if known. Raises accuracy a lot: everything is found by it
+- **Website** — if there is one
+- **Who they are to us** (optional): buyer, supplier, transport company, landlord
+- **What is at stake** (optional): shipment on deferred payment, prepayment to a supplier, a long contract
 
-If the name or the URL is missing — ask the user.
+No name and no ИНН — ask. One of the two is enough to start.
 
 ---
 
 ## PROCESS
 
-### Step 1: Surface Research
+### Step 1: Identify the company
 
-1. Open the company website via WebFetch — understand what they do, their scale, their format
-2. Read `Context/Company/about.md` — to understand what we offer.
-   Empty — say so and offer `/enrich-company` first. Do not guess what the company does: the whole «Стратегия» section is built on it.
-3. Determine the industry, rough scale, key business lines
+1. Find the legal entity by name or ИНН — `egrul.nalog.ru`, `checko.ru`, `rusprofile.ru`
+2. Several entities with similar names — show the list and ask which one. Do not pick the first one yourself: shipping to the wrong ИНН is how the whole check becomes pointless
+3. Read `Context/Company/about.md` and `Context/Company/products.md` — so the check is done from our position: what we ship, on what terms, what a failure costs us.
+   Empty — the check still works, but say so: without it there is no recommendation on terms, only the facts
 
-### Step 2: Parallel research (5 agents)
+### Step 2: Parallel check (5 agents)
 
-Launch **5 Agent agents in parallel** (subagent_type: "general-purpose"). Give each one the company name, URL and context.
+Launch **5 Agent agents in parallel** (subagent_type: "general-purpose"). Give each the name, the ИНН and the website.
 
 ---
 
-**Agent 1 — PROFILER**
+**Agent 1 — LEGAL STATUS**
 
 ```
-You are a corporate data analyst. Research the company and collect a factual profile.
+You check whether the company legally exists and is in good standing.
 
 COMPANY: [name]
-WEBSITE: [url]
+ИНН: [inn]
 
 What to look for:
-1. Legal entity (ИНН, ОГРН) — search checko.ru, rusprofile.ru, companies.rbc.ru
-2. Founders and CEO (full names)
-3. Year founded
-4. Financials (revenue, profit, trend) — СПАРК, РБК Компании, Контур.Фокус
-5. Headcount (estimate)
-6. Business structure: business lines, subsidiaries, branches
-7. Legal and actual address
+1. Status in ЕГРЮЛ: действующее / ликвидируется / в стадии реорганизации / исключено
+2. ИНН, ОГРН, КПП, date of registration, ОКВЭД (main and additional)
+3. CEO — full name, since when, and whether they run many other companies
+4. Founders, shares, whether there have been recent changes
+5. Legal address — and whether there is a mark of «недостоверность сведений» about it or about the CEO
+6. Registered capital
+7. Whether the address is a mass-registration address, whether the CEO is a mass director
 
-Use WebSearch and WebFetch. Search queries:
-- "[название] ИНН ОГРН"
-- "[название] учредители генеральный директор"
-- "[название] выручка прибыль"
-- site:checko.ru "[название]"
-- site:rusprofile.ru "[название]"
+Sources you can actually fetch: checko.ru, rusprofile.ru, list-org.com — they carry ЕГРЮЛ data
+and the «недостоверность» marks. egrul.nalog.ru and pb.nalog.ru are search forms: you will not get
+a result out of them by fetching, so do not claim you checked there.
+Search queries:
+- "[название] ИНН ОГРН ЕГРЮЛ"
+- "[название] генеральный директор учредители"
+- site:checko.ru "[инн]"
+- site:rusprofile.ru "[инн]"
 
 Response format:
-## Корпоративный профиль
+## Юридический статус
 
 | Параметр | Значение | Источник |
-|----------|----------|----------|
-| Юрлицо | ... | ... |
-| ИНН | ... | ... |
+|---|---|---|
+| Статус в ЕГРЮЛ | ... | ... |
+| ИНН / ОГРН | ... | ... |
+| Дата регистрации | ... | ... |
+| Основной ОКВЭД | ... | ... |
 | Гендиректор | ... | ... |
 | Учредители | ... | ... |
-| Год основания | ... | ... |
-| Выручка | ... | ... |
-| Сотрудники | ... | ... |
+| Уставный капитал | ... | ... |
+| Юридический адрес | ... | ... |
 
-## Структура бизнеса
-[описание направлений]
+## Отметки о недостоверности
+[есть / нет — если есть, что именно и с какой даты]
+
+## Красные флаги
+[массовый адрес, массовый директор, смена директора за последний месяц, возраст компании меньше года, уставный капитал 10 000 ₽ — перечислить только то, что реально нашлось]
 
 ## Источники
 [все URL]
@@ -80,189 +91,219 @@ Response format:
 
 ---
 
-**Agent 2 — MARKET ANALYST**
+**Agent 2 — FINANCES**
 
 ```
-You are a market analyst. Research the company's positioning, its competitors and recent news.
+You assess whether the company is solvent.
 
 COMPANY: [name]
-WEBSITE: [url]
-INDUSTRY: [industry from Step 1]
+ИНН: [inn]
 
 What to look for:
-1. What exactly the company does (products, services, target audience)
-2. Competitors (3-5 main ones)
-3. Positioning and USP
-4. Recent news from the last 1-2 years (expansion, M&A, leadership change, new products)
-5. Growth plans (expansion, new markets, investment)
-6. Clients / partners (if public information)
+1. Revenue for the last 3 years — the figure and the trend
+2. Profit or loss for the same years
+3. Net assets — and whether they are negative
+4. Headcount by years
+5. Tax debt, suspended bank accounts
+6. Taxes paid — the amount and which ones
+7. Which tax regime (ОСНО / УСН) — it affects whether they can take our НДС
 
-Use WebSearch. Search queries:
-- "[название] новости 2025 2026"
-- "[название] конкуренты рынок"
-- "[название] планы развитие экспансия"
-- "[название] site:rbc.ru OR site:kommersant.ru OR site:vedomosti.ru OR site:vc.ru"
-- "[название] интервью CEO основатель"
+Sources you can actually fetch: checko.ru, rusprofile.ru — they publish the financial statements
+and the tax data. bo.nalog.gov.ru and pb.nalog.ru are forms; do not claim you read them.
+Search queries:
+- "[название] выручка прибыль по годам"
+- "[название] бухгалтерская отчётность"
+- site:checko.ru "[инн]" финансы
+- "[название] задолженность по налогам"
 
 Response format:
-## Продукт и рынок
+## Финансы
 
-### Что делает компания
-[описание]
+| Год | Выручка | Прибыль | Чистые активы | Сотрудников |
+|---|---|---|---|---|
 
-### Конкуренты
-| Конкурент | Чем отличается |
-|-----------|---------------|
+## Налоги
+- Режим: [ОСНО / УСН / не найдено]
+- Уплачено за последний год: [сумма]
+- Задолженность: [сумма или «нет»]
+- Приостановки по счетам: [есть / нет]
 
-### Последние новости (1-2 года)
-- [дата]: [событие] — [источник]
+## Что видно из цифр
+[2-4 строки: растёт или падает, есть ли убыток, сходится ли выручка с заявленным масштабом]
 
-### Планы развития
-[что известно]
+## Красные флаги
+[убыток два года подряд, отрицательные чистые активы, выручка ноль при действующем статусе, задолженность по налогам, приостановка по счетам]
 
-### Источники
+## Источники
 [все URL]
 ```
 
 ---
 
-**Agent 3 — PAIN HUNTER**
+**Agent 3 — COURTS AND DEBTS**
 
 ```
-You are a business-problem researcher. Find every sign of pain: employee reviews, job openings, customer complaints, negative coverage.
+You look for litigation, enforcement proceedings and bankruptcy signs.
+
+COMPANY: [name]
+ИНН: [inn]
+
+What to look for:
+1. Arbitration cases — how many, for what amounts, as claimant or as defendant
+2. What the cases are about: unpaid deliveries, quality, contract termination, tax
+3. The trend — are there more of them in the last year
+4. Enforcement proceedings (ФССП) — how many, what amounts, on what grounds
+5. Bankruptcy: any filings, any notices, any statements of intent to file
+6. Registry of unscrupulous suppliers (РНП), if they take part in public procurement
+
+**The primary registries are not reachable for you.** kad.arbitr.ru gives its results through
+JavaScript, fedresurs.ru answers 401, zakupki.gov.ru fails on a certificate, fssp.gov.ru asks for a captcha.
+
+So: take the litigation, the enforcement proceedings and the bankruptcy marks from checko.ru and
+rusprofile.ru — they aggregate exactly this — plus a plain web search. Then put the direct links into
+the report for a person to confirm by hand. Write down which of the two you did: aggregator data or
+a confirmed primary source. For a large shipment that difference matters.
+Search queries:
+- "[название] арбитраж суд иск"
+- site:kad.arbitr.ru "[название]"
+- "[название] банкротство"
+- "[инн]" исполнительное производство
+- "[название] реестр недобросовестных поставщиков
+
+Response format:
+## Суды
+
+| Год | Дел | Как истец | Как ответчик | Сумма требований |
+|---|---|---|---|---|
+
+### О чём дела
+[типы споров — особо выделить иски о взыскании за поставленный товар: это прямой сигнал, платят ли они поставщикам]
+
+## Исполнительные производства
+- Открыто: [N на сумму X]
+- Основания: [что именно]
+
+## Банкротство
+[заявления, уведомления о намерении, сообщения на Федресурсе — или «не найдено»]
+
+## Красные флаги
+[ответчик по искам о взыскании долга за товар, рост числа дел за последний год, открытые исполнительные производства, любое упоминание банкротства]
+
+## Источники
+[все URL]
+```
+
+---
+
+**Agent 4 — REAL ACTIVITY**
+
+```
+You check whether the company actually operates — or exists only on paper.
 
 COMPANY: [name]
 WEBSITE: [url]
+ИНН: [inn]
 
 What to look for:
-1. Employee reviews — DreamJob, Glassdoor, otzovik. Rating, pros/cons, key complaints
-2. Job openings on hh.ru — how many are open, which roles (mass hiring = churn)
-3. Customer reviews — Яндекс.Карты, Google, 2ГИС, review sites
-4. Negative media coverage — lawsuits, scandals, complaints
-5. Signs of operational problems (from job openings and reviews)
+1. Website: does it work, when was it last updated, is there a real product range, real contacts
+2. Physical presence: production, warehouses, offices, shops — on Яндекс.Карты and 2ГИС, with photos and reviews
+3. Customer reviews — Яндекс.Карты, 2ГИС, industry sites. Rating, what they complain about
+4. Employee reviews — DreamJob, otzovik. Especially complaints about delayed wages
+5. Job openings on hh.ru — how many, which roles. Zero openings for years at a claimed large scale is a signal, and so is mass hiring
+6. Media mentions over the last 2 years
+7. How long they have been on the market and under this name
 
-Use WebSearch and WebFetch. Search queries:
-- "[название] отзывы сотрудников"
-- "[название] отзывы работников dreamjob"
-- site:dreamjob.ru "[название]"
-- site:hh.ru "[название]" вакансии
-- "[название] проблемы жалобы"
+Sources: Яндекс.Карты, 2ГИС, hh.ru, dreamjob.ru, WebFetch of the site itself
+Search queries:
 - "[название] отзывы клиентов"
+- "[название] отзывы сотрудников зарплата"
+- site:hh.ru "[название]"
+- "[название] новости"
 
 Response format:
-## Сигналы проблем
+## Реальность деятельности
 
-### Отзывы сотрудников
-- Рейтинг: X/5 (N отзывов)
-- Плюсы: [что хвалят]
-- Минусы: [ключевые жалобы — цитаты]
+### Сайт
+- Работает: [да/нет], последнее обновление: [когда видно]
+- Контакты: [реальные / шаблонные плейсхолдеры / нет]
 
-### Вакансии
-- Открыто: N вакансий
-- Типы: [какие позиции, массовый ли найм]
-- Что это значит: [интерпретация]
+### Физическое присутствие
+[что найдено на картах: адреса, фото, отзывы]
 
 ### Отзывы клиентов
-- Рейтинг: X/5
-- Ключевые жалобы: [если есть]
+- Рейтинг: [X/5, N отзывов]
+- На что жалуются: [цитаты]
 
-### Негатив в СМИ
-[если найдено]
+### Отзывы сотрудников
+- Рейтинг: [X/5]
+- Задержки зарплаты: [упоминаются / нет]
 
-### Источники
+### Вакансии
+- Открыто: [N], роли: [какие]
+
+## Красные флаги
+[сайт не обновлялся больше года, контакты — незаменённые шаблоны конструктора, адреса нет на картах, нулевая активность при заявленном масштабе, жалобы на задержки зарплаты]
+
+## Источники
 [все URL]
 ```
 
 ---
 
-**Agent 4 — TECHNOLOGIST**
+**Agent 5 — INDUSTRY COMPLIANCE**
 
 ```
-You are an IT-infrastructure expert. Determine the company's technological maturity and its experience with AI.
+You check what is specific to our industry and cannot be seen in the registries.
 
 COMPANY: [name]
 WEBSITE: [url]
+ИНН: [inn]
+WHO THEY ARE TO US: [buyer / supplier / transport / other]
+WHAT WE SHIP OR BUY: [from Context/Company/products.md]
 
-What to look for:
-1. Which IT systems they use (from job openings, the website, interviews): CRM, ERP, POS, BI, LMS
-2. Whether there is an in-house IT department (from job openings: are they hiring developers, an IT director)
-3. Experience with AI / automation (from news, interviews, case studies)
-4. Chatbots on the website, AI features in the app
-5. Technology stack (from job openings: Python, 1С, iiko, Bitrix, etc.)
+If the company is a SUPPLIER of raw materials or products, look for:
+1. Declarations of conformity and certificates — реестр Росаккредитации, pub.fsa.gov.ru by ИНН
+2. Registration in ВетИС / «Меркурий» — required for products of animal origin
+3. «Честный ЗНАК» — whether they are registered, if their goods are subject to labeling
+4. Product recalls, Роспотребнадзор findings, суды по качеству
+5. Whether they have their own production or are a reseller
 
-Use WebSearch and WebFetch. Search queries:
-- "[название] вакансии разработчик IT"
-- "[название] автоматизация AI искусственный интеллект"
-- "[название] CRM ERP система"
-- site:hh.ru "[название]" (разработчик OR программист OR IT OR data)
-- "[название] цифровизация технологии"
+If the company is a BUYER (a chain, a distributor, HoReCa), look for:
+1. Their supplier requirements — often published: shelf life, packaging, EDI, labeling
+2. Whether they work through EDI and which operator
+3. Payment terms they usually work on — from suppliers' reviews and arbitration cases
+4. Whether they have their own private label — that is both an opportunity and a risk
 
-Also open the company website via WebFetch and check:
-- Whether there is a chatbot
-- Whether there is a mobile app
-- How modern the site is (technologically)
+**Reachable:** the company website, a plain web search, checko.ru and rusprofile.ru (they list
+declarations of conformity by ИНН).
 
-Response format:
-## Технологический профиль
-
-### Известные IT-системы
-| Система | Тип | Источник |
-|---------|-----|----------|
-
-### IT-команда
-- Есть ли внутренний отдел: да/нет/неизвестно
-- Открытые IT-вакансии: [если есть]
-
-### Опыт с AI
-- [что известно]
-
-### Технологическая зрелость
-- Оценка: высокая / средняя / низкая / неизвестно
-- Обоснование: [почему]
-
-### Источники
-[все URL]
-```
-
----
-
-**Agent 5 — STRATEGIST**
-
-```
-You are a strategist. Based on the industry and the company's scale, propose which solutions could be valuable and which off-the-shelf alternatives exist.
-
-COMPANY: [name]
-INDUSTRY: [industry]
-SCALE: [headcount, locations, offices — whatever is known]
-CONTEXT: [what we know about the pains from Step 1]
-OUR SERVICES: [from Context/Company/about.md]
-
-Your tasks:
-
-1. Based on the industry, formulate 5-7 typical problems a business of this type and scale usually has (general industry knowledge).
-
-2. For each problem determine:
-   - Is there an off-the-shelf SaaS solution on the market? (name, price)
-   - Can the client do it themselves (no-code, ChatGPT)?
-   - Is custom development needed?
-
-3. Pick out the 2-3 problems where our services deliver the most value (no ready-made solutions OR the ready-made ones do not cover the specifics).
-
-Use WebSearch to look for ready-made solutions.
+**Not reachable — hand these to a person as links:** pub.fsa.gov.ru (Росаккредитация, a JS form),
+«Меркурий» (mercury.vetrf.ru — registration required, there is no ИНН lookup on fsvps.gov.ru at all),
+честныйзнак.рф, inspect.rospotrebnadzor.ru. Do not write that you checked them.
+Search queries:
+- "[название] декларация соответствия"
+- "[инн]" site:pub.fsa.gov.ru
+- "[название] требования к поставщикам"
+- "[название] Роспотребнадзор нарушение"
+- "[название] отзыв продукции"
 
 Response format:
-## Стратегия
+## Отраслевая проверка
 
-### Типовые проблемы индустрии
-| # | Проблема | Готовое решение | Цена | Нужна кастомная разработка? |
-|---|----------|----------------|------|-----------------------------|
+### Разрешительные документы
+| Документ | Есть | Срок действия | Источник |
+|---|---|---|---|
 
-### ТОП-3 точки входа для нас
-1. [решение] — почему именно мы, а не SaaS
-2. [решение] — ...
-3. [решение] — ...
+### Требования и условия работы
+[что известно про их условия — для покупателя; про их документы — для поставщика]
 
-### Источники
+### Претензии по качеству
+[отзывы продукции, предписания, суды — или «не найдено»]
+
+## Красные флаги
+[просроченные декларации, отсутствие регистрации в ВетИС при работе с животноводческой продукцией, отзывы продукции, предписания надзора]
+
+## Источники
 [все URL]
 ```
 
@@ -272,60 +313,71 @@ Response format:
 
 Once all 5 reports are in:
 
-1. **Check for discrepancies** — if agents give different data (rating, headcount, CEO) — flag it and re-check where possible.
+1. **Check for discrepancies.** Agents disagree on revenue, headcount or the CEO — flag it and re-check. A discrepancy between registries is itself a finding.
 
-2. **Assemble the company profile** — merge data from Agents 1, 2, 4.
+2. **Collect all red flags in one list.** Each one with a source. Nothing gets softened at this stage.
 
-3. **Formulate problem hypotheses** — based on Agent 3 (pains) + Agent 2 (market context) + Agent 5 (typical industry problems). For each hypothesis state:
-   - Description and evidence
-   - Estimated cost of the problem to the business (in RUB/year)
-   - Боль (1-5)
-   - Стоимость (1-5)
-   - Продаваемость (1-5)
-   - Risks: ready-made solutions, DIY, not our territory
+3. **Weigh them.** Not every red flag is equal:
+   - **Stop signals** — исключение из ЕГРЮЛ, банкротство, отметка о недостоверности, массовый директор при свежей регистрации
+   - **Serious** — ответчик по искам о взыскании за товар, отрицательные чистые активы, задолженность по налогам, приостановка счетов, жалобы на задержки зарплаты
+   - **To keep in mind** — молодая компания, маленький уставный капитал, падение выручки, слабый сайт
 
-4. **Form the proposals** — from Agent 5, tied to the hypotheses.
+4. **Produce the verdict** — one of three:
+   - 🟢 **Работаем** — стоп-сигналов нет, серьёзных нет или они объяснимы
+   - 🟡 **Работаем осторожно** — есть серьёзные флаги; назвать, какие именно условия их закрывают
+   - 🔴 **Не работаем** — есть стоп-сигнал; назвать, какой
 
-5. **Assemble the «Что можно закрыть без нас» block** — from Agent 5, with service names and prices.
+5. **Recommend the terms.** This is what the check exists for. Tie it to what is at stake:
+   - Prepayment / partial prepayment / deferred payment and for how many days
+   - Shipment limit in rubles
+   - What to ask for before the first shipment: карточка предприятия, копии деклараций, доверенность подписанта
+   - What to re-check and when
+
+**Do not recommend a decision when the data is thin.** Fewer than three of the five agents found anything — say so directly: this is not a green light, this is an absence of data.
 
 ### Step 4: Document
 
-Create **one file**: `Projects/исследование-[компания]-[дата].md`
+Create **one file**: `Projects/контрагент-[компания]-[дата].md`
 
-Files in `Projects/` are versioned in git. If the repository is public, the names, contacts and quotes from reviews collected below will be visible to everyone — decide what to write down.
+Files in `Projects/` are versioned in git. If the repository is public, everything collected here will be visible to everyone — decide what to write down.
 
-Full analysis for internal use:
-- Verified company profile (table)
-- Business structure
-- Decision-maker contacts (if found)
-- All problem hypotheses with scores: Боль (1-5) × Стоимость (1-5) × Продаваемость (1-5)
-- For each hypothesis: risks (ready-made solutions, DIY, not our territory)
-- Proposal matrix with priorities and budgets
-- «Что можно закрыть без нас» block (SaaS alternatives with prices)
-- Questions for the first meeting
+Contents:
+- Verdict and recommended terms — at the very top, first screen
+- All red flags with sources
+- The five sections from the agents
+- What was not found — a separate list
+- **«Проверить руками»** — a checklist of direct links to the registries you could not open, with what
+  to look for in each. For a large shipment or a long contract a person walks this list; for a small
+  trial batch the aggregator data is usually enough. Say which case this is.
+- Date of the check and when to repeat it
 
 ### Step 5: Summary
 
-Post a **short summary** in chat (no more than 15-20 lines):
-- Company profile (3-4 lines)
-- TOP-3 problem hypotheses (1 line each)
-- TOP-3 proposals (1 line each)
+Post a **short summary** in chat (no more than 12-15 lines):
+- Verdict: 🟢 / 🟡 / 🔴 — and the one main reason
+- 3 key red flags, one line each
+- Recommended terms of work
 - Where the file is saved
 
 ---
 
 ## IMPORTANT RULES
 
-1. **Always WebSearch.** Every agent MUST search the internet. Do not generate data from your head.
-2. **Parallel launch.** All 5 agents are launched at the same time.
-3. **Verification.** If data from different agents disagrees — re-check and flag it.
-4. **Honesty.** If there is no data for some parameter — write «не найдено», do not make it up.
-5. **Write-first.** The result always goes into a file. Chat gets only the summary.
-6. **Do not oversell.** In the «Что можно закрыть без нас» section, honestly list off-the-shelf SaaS alternatives.
-7. **Freshness.** When searching, add the current year to get fresh data.
+1. **Always WebSearch.** Every agent MUST search. A counterparty check made up from memory is worse than no check at all.
+2. **Parallel launch.** All 5 agents at the same time.
+3. **A source next to every fact.** Not a list at the end — a link next to the statement. In a month nobody will remember where the figure came from.
+4. **Never claim a source you did not open.** Half of the state registries do not answer a fetch:
+   some need a captcha, some a certificate, some a login. Write down what you actually read.
+   «Проверено по ЕГРЮЛ» when you only read an aggregator is the one lie that makes the whole check worthless.
+
+5. **«Не найдено» is a valid answer.** No data — write it that way. Never fill a gap with a plausible guess: a made-up clean record is exactly the failure that costs a shipment.
+6. **Absence of red flags is not a green light.** A company registered a month ago has a clean record because it has no history. Say that out loud.
+7. **Two aggregators are not two sources.** checko, rusprofile and «За честный бизнес» are one ЕГРЮЛ in three wrappers. For confirmation, look for a source of a different kind.
+8. **Freshness.** Add the current year to the query. Registry data ages: a check from six months ago says nothing about today.
+9. **The verdict is a recommendation, not a decision.** The decision to ship is made by a person.
 
 ---
 
-Company to research:
+Company to check:
 
 $ARGUMENTS

@@ -1,5 +1,5 @@
 ---
-description: "Meeting transcript or recording → summary, decisions, tasks. Triggers: 'разбери встречу', 'сделай саммари планёрки', '/meeting-review'."
+description: "Meeting transcript → summary, decisions, tasks, open questions, follow-up draft. Triggers: 'разбери встречу', 'сделай саммари планёрки', 'саммари встречи', '/meeting-review'."
 language: en
 ---
 
@@ -13,9 +13,13 @@ The difference from a plain summary: decisions and tasks are pulled out separate
 
 ## What you need as input
 
-A transcript file in `Inbox/`. Any format: txt, md, docx, the output of any transcription.
+A transcript file in `Inbox/`. Any format: txt, md, the output of any transcription.
 
-If there is no file — ask where it is.
+**Claude Code does not transcribe audio itself.** A recording has to be turned into text outside — a phone recorder with transcription, any transcription service — and the text goes into `Inbox/`.
+
+Or dictate the meeting straight into the chat from memory: worse than a transcript, but it works.
+
+If there is nothing — ask where the transcript is.
 
 ---
 
@@ -63,6 +67,9 @@ One file in `Projects/` of the form `встреча-ГГГГ-ММ-ДД-тема.
 ## Задачи
 | Кто | Что | К какому сроку |
 ## Осталось нерешённым
+## Письмо участникам
 ```
+
+The last section is a ready follow-up draft: what was decided, who does what, by when — in a form that can be sent without rewriting. Do not put into it anything that is not in the sections above.
 
 Plus three lines in chat: how many decisions, how many tasks, what is left open.

@@ -96,8 +96,6 @@ Then write a `## Чего не нашлось` section at the end of each file �
 
 **Distinguish fact from estimate.** «Выручка 200 млн» is a fact with a source. «Компания растёт» is an estimate, and it must be labeled as an estimate.
 
-**Do not carry over personal contacts.** Mobile phone numbers, personal emails and home addresses of employees, encountered on the website or in job postings, do not go into the files. Position and public role are enough.
-
 **Do not rewrite what a person has already filled in.** If the file has text without the «заполнено агентом» mark — add next to it, not on top of it.
 
 ---
