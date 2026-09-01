@@ -54,7 +54,17 @@ What to look for:
 4. Founders, shares, whether there have been recent changes
 5. Legal address — and whether there is a mark of «недостоверность сведений» about it or about the CEO
 6. Registered capital
-7. Whether the address is a mass-registration address, whether the CEO is a mass director
+7. Whether the address is a mass-registration address, whether the CEO is a mass director.
+   ФНС thresholds: more than 5 legal entities per director, more than 10 per founder, more than 5 companies at one address
+8. Whether the CEO or the founders are in the реестр дисквалифицированных лиц — service.nalog.ru, search by ФИО
+9. **Restart check.** Look at the other companies of the same founders: is there one that was liquidated,
+   struck off or went bankrupt shortly before this one appeared. A fresh entity with the same owners after
+   a previous one left debts behind is a standard scheme, and you already have the data for it
+
+**If the counterparty is an ИП, not a legal entity** — it is in ЕГРИП, not ЕГРЮЛ. There is no КПП,
+no founders, no registered capital and no published accounts. Check instead: status in ЕГРИП, date of
+registration, ОКВЭД, absence of a termination record, personal bankruptcy (ЕФРСБ by ФИО), enforcement
+proceedings by ФИО. Do not report empty fields as «не найдено» — say that data of that kind does not exist for an ИП.
 
 Sources you can actually fetch: checko.ru, rusprofile.ru, list-org.com — they carry ЕГРЮЛ data
 and the «недостоверность» marks. egrul.nalog.ru and pb.nalog.ru are search forms: you will not get
@@ -83,7 +93,8 @@ Response format:
 [есть / нет — если есть, что именно и с какой даты]
 
 ## Красные флаги
-[массовый адрес, массовый директор, смена директора за последний месяц, возраст компании меньше года, уставный капитал 10 000 ₽ — перечислить только то, что реально нашлось]
+[массовый адрес, массовый директор, дисквалификация руководителя, отметка о недостоверности, решение о предстоящем исключении, стадия ликвидации, смена директора за последний месяц, возраст компании меньше года, признаки перезапуска — перечислить только то, что реально нашлось.
+Уставный капитал 10 000 ₽ красным флагом НЕ считается: это законный минимум для ООО и он у большинства нормальных компаний. Это довод к размеру лимита отгрузки, а не к отказу]
 
 ## Источники
 [все URL]
@@ -106,10 +117,22 @@ What to look for:
 4. Headcount by years
 5. Tax debt, suspended bank accounts
 6. Taxes paid — the amount and which ones
-7. Which tax regime (ОСНО / УСН) — it affects whether they can take our НДС
+7. Tax regime **and VAT rate**. The old shortcut «УСН значит без НДС» stopped being true in 2025:
+   simplified-regime companies above the income threshold are VAT payers, and the threshold keeps dropping.
+   What actually decides whether they can deduct our VAT is the rate: on the reduced rates there is no
+   input deduction, on the general one there is. Suppliers of meat raw materials are often on ЕСХН — there
+   VAT applies by default with an exemption under ст. 145 НК below the income limit.
+   So record three things, not one: режим, ставка НДС, наличие освобождения. Thresholds change every year —
+   check the current ones instead of relying on remembered numbers.
 
 Sources you can actually fetch: checko.ru, rusprofile.ru — they publish the financial statements
 and the tax data. bo.nalog.gov.ru and pb.nalog.ru are forms; do not claim you read them.
+
+**Account suspensions have their own free service:** `service.nalog.ru/bi.do` — a query by ИНН plus the
+bank's БИК returns current decisions to suspend operations and the ground for each. The БИК comes from
+the карточка предприятия you ask for before the first shipment. Aggregator data on suspensions lags,
+and for a shipment on deferred payment it is today's picture that matters. Put this into the
+«Проверить руками» checklist — you cannot query it yourself.
 Search queries:
 - "[название] выручка прибыль по годам"
 - "[название] бухгалтерская отчётность"
@@ -168,7 +191,7 @@ Search queries:
 - site:kad.arbitr.ru "[название]"
 - "[название] банкротство"
 - "[инн]" исполнительное производство
-- "[название] реестр недобросовестных поставщиков
+- "[название] реестр недобросовестных поставщиков"
 
 Response format:
 ## Суды
@@ -187,7 +210,13 @@ Response format:
 [заявления, уведомления о намерении, сообщения на Федресурсе — или «не найдено»]
 
 ## Красные флаги
-[ответчик по искам о взыскании долга за товар, рост числа дел за последний год, открытые исполнительные производства, любое упоминание банкротства]
+[ответчик по искам о взыскании долга за товар, рост числа дел за последний год, открытые исполнительные производства]
+
+**Always state the company's role in a bankruptcy case.** A wholesaler routinely appears in ЕФРСБ and
+КАД as a creditor in its own customers' bankruptcies — that is normal receivables work, not a risk sign.
+A red flag is bankruptcy **of this company**: a case opened against it, a creditor's notice of intent to
+file, наблюдение introduced. «Компания как должник» and «компания как кредитор» must never be merged
+into one line — otherwise the check returns 🔴 on a neutral fact and kills a normal shipment.
 
 ## Источники
 [все URL]
@@ -262,24 +291,50 @@ WHO THEY ARE TO US: [buyer / supplier / transport / other]
 WHAT WE SHIP OR BUY: [from Context/Company/products.md]
 
 If the company is a SUPPLIER of raw materials or products, look for:
-1. Declarations of conformity and certificates — реестр Росаккредитации, pub.fsa.gov.ru by ИНН
-2. Registration in ВетИС / «Меркурий» — required for products of animal origin
-3. «Честный ЗНАК» — whether they are registered, if their goods are subject to labeling
-4. Product recalls, Роспотребнадзор findings, суды по качеству
-5. Whether they have their own production or are a reseller
+1. Declarations of conformity — реестр Росаккредитации, `pub.fsa.gov.ru`, by ИНН. Which technical
+   regulations they cover: ТР ТС 021/2011 and 022/2011 apply to all food, ТР ТС 034/2013 to meat,
+   029/2012 when additives are used. A declaration that names the wrong regulation is a finding
+2. Registration in ВетИС — public registries live on `cerberus.vetrf.ru` and open without a login
+3. Product non-conformities — ГИР ЗПП, `zpp.rospotrebnadzor.ru/badproducts/violations`: a public registry
+   with a filter by manufacturer. This is the right address, not the Роспотребнадзор home page
+4. Whether they produce themselves or resell — it decides who answers for quality
 
-If the company is a BUYER (a chain, a distributor, HoReCa), look for:
-1. Their supplier requirements — often published: shelf life, packaging, EDI, labeling
-2. Whether they work through EDI and which operator
-3. Payment terms they usually work on — from suppliers' reviews and arbitration cases
-4. Whether they have their own private label — that is both an opportunity and a risk
+If the company is a BUYER (a chain, a distributor, HoReCa), the two checks below are **blocking
+conditions for the first shipment**, not background information. Our product is meat and poultry
+cooked sous-vide — chilled, vacuum-packed, of animal origin:
 
-**Reachable:** the company website, a plain web search, checko.ru and rusprofile.ru (they list
-declarations of conformity by ИНН).
+1. **ВетИС.** The buyer must be registered as a хозяйствующий субъект, have a площадка in «Цербер» at the
+   actual address of the warehouse, and someone with the right to гасить входящие эВСД. Not registered —
+   the shipment cannot legally happen at all, no commercial terms will fix it. Check it from our own
+   «Меркурий» account: when issuing an эВСД the recipient is looked up by ИНН. Put this first in the
+   «Проверить руками» checklist
+2. **«Честный ЗНАК».** Marking of meat products is being introduced in stages, and participants of the
+   turnover must be registered. Look for them in the public list of participants —
+   `честныйзнак.рф/business/spisokuot/`, it opens without a login — and check whether they accept УПД with
+   codes over ЭДО and through which operator. **Check the dates in force today**: the schedule shifts,
+   and a stale date in this file is worse than no date
 
-**Not reachable — hand these to a person as links:** pub.fsa.gov.ru (Росаккредитация, a JS form),
-«Меркурий» (mercury.vetrf.ru — registration required, there is no ИНН lookup on fsvps.gov.ru at all),
-честныйзнак.рф, inspect.rospotrebnadzor.ru. Do not write that you checked them.
+Then the commercial part:
+
+3. Their supplier requirements — often published: остаточный срок годности при приёмке, packaging, EDI, labeling
+4. Payment terms they actually work on — from suppliers' reviews and from arbitration cases
+5. **Cold chain.** Sous-vide is chilled. Does the buyer have refrigerated storage and transport, and is the
+   «Меркурий» площадка registered at that warehouse. Without it the returns and the quality claims are ours
+6. **Who actually pays.** For franchise chains and HoReCa the brand on the sign and the legal entity on the
+   contract are routinely different companies. Deferred payment is granted to an ИНН, not to a brand —
+   confirm that the ИНН we checked is the one that will sign
+7. Whether they have their own private label — that is both an opportunity and a risk
+
+**Reachable:** the company website, a plain web search, `cerberus.vetrf.ru` (public ВетИС registries,
+no login), `честныйзнак.рф/business/spisokuot/` (public list of participants, no login),
+`zpp.rospotrebnadzor.ru/badproducts/violations` (public registry of non-conforming products).
+
+**Not reachable — hand these to a person as links:** `pub.fsa.gov.ru` (a JS form), «Меркурий» itself
+(`mercury.vetrf.ru`, needs an account — but the check is done from our own account, see above).
+There is no ИНН lookup on `fsvps.gov.ru` at all; do not send anyone there.
+
+**Neither checko.ru nor rusprofile.ru publish declarations of conformity.** Do not look for them there
+and do not claim you did.
 Search queries:
 - "[название] декларация соответствия"
 - "[инн]" site:pub.fsa.gov.ru
@@ -318,7 +373,10 @@ Once all 5 reports are in:
 2. **Collect all red flags in one list.** Each one with a source. Nothing gets softened at this stage.
 
 3. **Weigh them.** Not every red flag is equal:
-   - **Stop signals** — исключение из ЕГРЮЛ, банкротство, отметка о недостоверности, массовый директор при свежей регистрации
+   - **Stop signals** — банкротство самой компании, стадия ликвидации, решение о предстоящем исключении
+     недействующего юрлица, отметка о недостоверности сведений, дисквалификация руководителя,
+     массовый директор при свежей регистрации, признаки перезапуска после брошенного юрлица с долгами.
+     («Исключение из ЕГРЮЛ» в этот список не входит: договор подписывать уже не с кем, до вердикта не дойдёт)
    - **Serious** — ответчик по искам о взыскании за товар, отрицательные чистые активы, задолженность по налогам, приостановка счетов, жалобы на задержки зарплаты
    - **To keep in mind** — молодая компания, маленький уставный капитал, падение выручки, слабый сайт
 
@@ -329,8 +387,20 @@ Once all 5 reports are in:
 
 5. **Recommend the terms.** This is what the check exists for. Tie it to what is at stake:
    - Prepayment / partial prepayment / deferred payment and for how many days
-   - Shipment limit in rubles
-   - What to ask for before the first shipment: карточка предприятия, копии деклараций, доверенность подписанта
+   - **The deferral has a legal ceiling for food, tied to shelf life** — ч. 7 ст. 9 ФЗ-381
+     («О торговле»). The shorter the shelf life, the shorter the maximum deferral the law allows,
+     and sous-vide is chilled, so the short end is ours. Look up the current wording and name the limit
+     for our specific shelf life: agreeing a longer deferral than the law permits makes that clause void
+   - Shipment limit in rubles — tie it to the revenue and the net assets, not to a feeling
+   - Security, when the verdict is 🟡 and the volume is worth it: личное поручительство собственника,
+     банковская гарантия, страхование дебиторки, факторинг, or a stepped scheme — prepayment first,
+     deferral after N clean shipments
+   - What to ask for before the first shipment: свежая выписка из ЕГРЮЛ с ЭЦП (`egrul.nalog.ru` — the only
+     authoritative source on who may sign), карточка предприятия with the БИК, копии деклараций,
+     доверенность подписанта if the contract is not signed by the director named in the выписка
+   - For a chain or a distributor — read their draft contract, not only their reputation: retro bonuses and
+     marketing fees for food are capped by ст. 9 ФЗ-381, and there will be penalties for short delivery
+     and requirements on the remaining shelf life at acceptance
    - What to re-check and when
 
 **Do not recommend a decision when the data is thin.** Fewer than three of the five agents found anything — say so directly: this is not a green light, this is an absence of data.
